@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTU SGPA & CGPA Calculator - Professional Grade Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-main">
+                    <h1 class="title">📊 RTU GPA Calculator</h1>
+                    <p class="subtitle">Fast • Accurate • Easy to Use</p>
+                </div>
+                <div class="grade-scale-badge">
+                    <span class="badge-label">RTU 10-Point CBCS</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tabs-wrapper">
+            <nav class="tabs-container">
+                <button class="tab-btn active" data-tab="manual-entry" title="Enter grades manually">
+                    <span class="tab-icon">✏️</span>
+                    <span class="tab-text">Manual Entry</span>
+                </button>
+                <button class="tab-btn" data-tab="marksheet-upload" title="Upload marksheet image">
+                    <span class="tab-icon">📸</span>
+                    <span class="tab-text">Upload Marksheet</span>
+                </button>
+                <button class="tab-btn" data-tab="view-results" title="View all your results">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-text">My Results</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Manual Entry Tab -->
+            <section id="manual-entry" class="tab-pane active">
+                <div class="card-container">
+                    <!-- Settings Card -->
+                    <div class="settings-card">
+                        <h3 class="card-title">Step 1: Select Branch & Semester</h3>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="branch" class="form-label">
+                                    <span class="label-icon">🎓</span> Your Branch
+                                </label>
+                                <select id="branch" class="form-select">
+                                    <option value="">Choose Your Branch</option>
+                                    <option value="CSE">💻 Computer Science Engineering</option>
+                                    <option value="ECE">⚡ Electronics & Communication</option>
+                                    <option value="EE">🔌 Electrical Engineering</option>
+                                    <option value="ME">⚙️ Mechanical Engineering</option>
+                                    <option value="CE">🏗️ Civil Engineering</option>
+                                    <option value="IT">📱 Information Technology</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="semester" class="form-label">
+                                    <span class="label-icon">📚</span> Semester
+                                </label>
+                                <select id="semester" class="form-select">
+                                    <option value="">Choose Semester</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subjects Card -->
+                    <div class="subjects-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Step 2: Enter Subjects & Grades</h3>
+                                <p class="card-subtitle">Select your grades for each subject</p>
+                            </div>
+                            <div class="credit-display">
+                                <span class="credit-label">Total Credits:</span>
+                                <span class="credit-value" id="total-credits">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Grade Scale Reference -->
+                        <div class="grade-scale-info">
+                            <strong>Grade Scale:</strong>
+                            <div class="grade-scale-grid">
+                                <span>A++=10</span>
+                                <span>A+=9</span>
+                                <span>A=8.5</span>
+                                <span>B+=8</span>
+                                <span>B=7.5</span>
+                                <span>C+=7</span>
+                                <span>C=6.5</span>
+                                <span>D+=6</span>
+                                <span>D=5.5</span>
+                                <span>E+=5</span>
+                                <span>E=4</span>
+                                <span>F=0</span>
+                            </div>
+                        </div>
+
+                        <!-- Subjects Container -->
+                        <div id="subjects-container" class="subjects-grid">
+                            <!-- Subjects will be added here dynamically -->
+                        </div>
+
+                        <!-- Add Subject Button -->
+                        <button class="btn-add-subject" id="add-subject-btn">
+                            <span>+</span> Add Subject
+                        </button>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-bar">
+                        <button class="btn-calculate" id="calculate-sgpa-btn">
+                            <span>⚡</span> Calculate SGPA
+                        </button>
+                        <button class="btn-reset" id="reset-manual-btn">
+                            <span>🔄</span> Reset
+                        </button>
+                    </div>
+
+                    <!-- SGPA Result -->
+                    <div id="sgpa-result" class="result-card hidden">
+                        <div class="result-header">
+                            <h4>Your Semester GPA (SGPA)</h4>
+                        </div>
+                        <div class="result-body">
+                            <div class="gpa-display">
+                                <div class="gpa-main">
+                                    <span id="sgpa-value" class="gpa-value">0.00</span>
+                                    <span class="gpa-unit">/10</span>
+                                </div>
+                                <div class="gpa-percentage">
+                                    <span id="sgpa-percentage" class="percentage-value">0%</span>
+                                </div>
+                            </div>
+                            <p class="result-detail" id="sgpa-detail"></p>
+                            <button class="btn-success" id="save-sgpa-btn">
+                                💾 Save SGPA
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marksheet Upload Tab -->
+            <section id="marksheet-upload" class="tab-pane">
+                <div class="card-container">
+                    <div class="upload-card">
+                        <h3 class="card-title">Upload Your Marksheet</h3>
+                        <p class="card-subtitle">Take a clear photo or upload a scan of your marksheet</p>
+
+                        <!-- Upload Area -->
+                        <div id="upload-area" class="upload-area">
+                            <div class="upload-icon">📸</div>
+                            <p class="upload-text">Drag & drop your image here or click to select</p>
+                            <input type="file" id="marksheet-upload" accept="image/*" class="upload-input" />
+                        </div>
+
+                        <!-- Image Preview -->
+                        <div id="image-preview-container" class="preview-container hidden">
+                            <img id="preview-image" src="" alt="Preview" class="preview-image" />
+                        </div>
+
+                        <!-- OCR Results -->
+                        <div id="ocr-results" class="ocr-results hidden">
+                            <h4>Detected Subjects</h4>
+                            <div class="form-group">
+                                <label for="upload-semester" class="form-label">Select Semester:</label>
+                                <select id="upload-semester" class="form-select">
+                                    <option value="">Choose Semester</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </div>
+                            <div id="ocr-subjects-container" class="subjects-grid"></div>
+                            <div class="upload-actions">
+                                <button class="btn-confirm" id="confirm-ocr-btn">✓ Confirm & Calculate</button>
+                                <button class="btn-edit" id="edit-ocr-btn">✎ Edit</button>
+                                <button class="btn-reset" id="reset-upload-btn">🔄 Reset</button>
+                            </div>
+                        </div>
+
+                        <!-- OCR Status -->
+                        <div id="ocr-status" class="status-message hidden"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View Results Tab -->
+            <section id="view-results" class="tab-pane">
+                <div class="card-container">
+                    <!-- CGPA Summary Card -->
+                    <div class="cgpa-summary-card">
+                        <div class="cgpa-header">
+                            <h3>Cumulative GPA (CGPA)</h3>
+                        </div>
+                        <div class="cgpa-main">
+                            <div class="cgpa-value-container">
+                                <span class="cgpa-value" id="cgpa-value">0.00</span>
+                                <span class="cgpa-unit">/10</span>
+                            </div>
+                            <div class="cgpa-stats">
+                                <div class="stat">
+                                    <span class="stat-label">Percentage</span>
+                                    <span class="stat-value" id="cgpa-percentage">0%</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Semesters</span>
+                                    <span class="stat-value" id="semesters-count">0</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Total Credits</span>
+                                    <span class="stat-value" id="total-credits-count">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Semester Results -->
+                    <div class="results-section">
+                        <h3 class="results-title">📚 Semester-wise Results</h3>
+                        <div id="results-container" class="semesters-grid">
+                            <!-- Semester cards will be added here dynamically -->
+                        </div>
+                        <div id="no-results-message" class="empty-state">
+                            <p>📝 No results yet. Start by entering grades in Manual Entry or uploading a marksheet.</p>
+                        </div>
+                    </div>
+
+                    <!-- Clear Data Button -->
+                    <div class="results-footer">
+                        <button class="btn-danger" id="clear-all-btn">
+                            🗑️ Clear All Data
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ for RTU Students | v2.1 | <a href="https://github.com" target="_blank">GitHub</a></p>
+        </footer>
+    </div>
+
+    <!-- Modal for Editing OCR Data -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Subject Details</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-subjects" class="modal-subjects">
+                    <!-- Edit fields will be added here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="modal-cancel">Cancel</button>
+                <button class="btn-save" id="modal-save">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner hidden">
+        <div class="spinner"></div>
+        <p>Processing marksheet...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
