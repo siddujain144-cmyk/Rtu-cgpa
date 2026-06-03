@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTU SGPA & CGPA Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">📊 RTU SGPA & CGPA Calculator</h1>
+                <p class="subtitle">Calculate your SGPA and CGPA for all 8 Semesters - All Branches</p>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tabs-container">
+            <nav class="tabs">
+                <button class="tab-btn active" data-tab="manual-entry">
+                    <span class="tab-icon">✏️</span> Manual Entry
+                </button>
+                <button class="tab-btn" data-tab="marksheet-upload">
+                    <span class="tab-icon">📤</span> Upload Marksheet
+                </button>
+                <button class="tab-btn" data-tab="view-results">
+                    <span class="tab-icon">📋</span> View Results
+                </button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <main class="tab-content">
+            <!-- Manual Entry Tab -->
+            <section id="manual-entry" class="tab-pane active">
+                <div class="settings-row">
+                    <div class="setting-group">
+                        <label for="branch">Select Branch:</label>
+                        <select id="branch">
+                            <option value="">📚 Choose Your Branch</option>
+                            <option value="CSE">💻 Computer Science Engineering (CSE)</option>
+                            <option value="ECE">⚡ Electronics & Communication (ECE)</option>
+                            <option value="EE">🔌 Electrical Engineering (EE)</option>
+                            <option value="ME">⚙️ Mechanical Engineering (ME)</option>
+                            <option value="CE">🏗️ Civil Engineering (CE)</option>
+                            <option value="IT">📱 Information Technology (IT)</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label for="semester">Select Semester:</label>
+                        <select id="semester">
+                            <option value="">Choose Semester</option>
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                            <option value="5">Semester 5</option>
+                            <option value="6">Semester 6</option>
+                            <option value="7">Semester 7</option>
+                            <option value="8">Semester 8</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Subjects Input -->
+                <div class="subjects-section">
+                    <div class="section-header">
+                        <h3>📚 Enter Subjects & Select Grades</h3>
+                        <button class="btn-secondary" id="add-subject-btn">+ Add Subject</button>
+                    </div>
+                    <p style="color: var(--text-light); margin-bottom: 15px; font-size: 0.95rem;">
+                        <strong>RTU 10-Point Scale (CBCS):</strong> A++=10 | A+=9 | A=8.5 | B+=8 | B=7.5 | C+=7 | C=6.5 | D+=6 | D=5.5 | E+=5 | E=4 | F=0
+                    </p>
+                    <div id="subjects-container" class="subjects-container">
+                        <!-- Subjects will be added here dynamically -->
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-primary" id="calculate-sgpa-btn">Calculate SGPA</button>
+                    <button class="btn-secondary" id="reset-manual-btn">Reset</button>
+                </div>
+
+                <!-- SGPA Result -->
+                <div id="sgpa-result" class="result-box hidden">
+                    <div class="result-content">
+                        <h4>Semester GPA (SGPA)</h4>
+                        <div class="sgpa-display">
+                            <span id="sgpa-value" class="gpa-value">0.00</span>
+                            <span class="gpa-max">/10</span>
+                        </div>
+                        <p class="result-detail" id="sgpa-detail"></p>
+                        <button class="btn-success" id="save-sgpa-btn">Save SGPA</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marksheet Upload Tab -->
+            <section id="marksheet-upload" class="tab-pane">
+                <div class="upload-container">
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-icon">📸</div>
+                        <h3>Upload Your Marksheet</h3>
+                        <p>Drag and drop your marksheet image or click to select</p>
+                        <input type="file" id="marksheet-input" accept="image/*" style="display: none;">
+                        <button class="btn-primary" onclick="document.getElementById('marksheet-input').click()">
+                            Choose File
+                        </button>
+                    </div>
+
+                    <div id="upload-preview" class="upload-preview hidden">
+                        <div class="preview-header">
+                            <h4>Preview</h4>
+                            <button class="btn-secondary" id="reset-upload-btn">Change File</button>
+                        </div>
+                        <img id="preview-image" src="" alt="Marksheet Preview">
+                    </div>
+
+                    <div id="ocr-result" class="ocr-result hidden">
+                        <div class="result-header">
+                            <h4>Detected Information</h4>
+                            <div class="ocr-controls">
+                                <label for="manual-semester">Semester:</label>
+                                <select id="manual-semester">
+                                    <option value="">Choose Semester</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="detected-subjects" class="detected-subjects"></div>
+                        <div class="action-buttons">
+                            <button class="btn-primary" id="confirm-ocr-btn">Confirm & Calculate</button>
+                            <button class="btn-secondary" id="edit-ocr-btn">Edit Details</button>
+                        </div>
+                    </div>
+
+                    <div class="loading hidden" id="ocr-loading">
+                        <div class="spinner"></div>
+                        <p>Processing marksheet...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View Results Tab -->
+            <section id="view-results" class="tab-pane">
+                <div class="results-section">
+                    <div class="results-header">
+                        <h3>Your Academic Performance</h3>
+                        <button class="btn-secondary" id="clear-history-btn">Clear All Data</button>
+                    </div>
+
+                    <!-- CGPA Summary -->
+                    <div class="cgpa-summary hidden" id="cgpa-summary">
+                        <div class="summary-card">
+                            <h4>🎓 Cumulative GPA (CGPA)</h4>
+                            <div class="cgpa-display">
+                                <span id="cgpa-value" class="gpa-value">0.00</span>
+                                <span class="gpa-max">/10</span>
+                            </div>
+                            <div style="font-size: 0.95rem; color: rgba(255, 255, 255, 0.9); margin: 10px 0;">
+                                <span id="cgpa-percentage">0.00%</span>
+                            </div>
+                            <p class="summary-stats">
+                                <span>Semesters Completed: <strong id="total-semesters">0</strong></span><br>
+                                <span>Total Credits: <strong id="total-credits">0</strong></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Semester-wise Results -->
+                    <div class="semester-results" id="semester-results">
+                        <p class="empty-message">No SGPA data saved yet. Complete a semester calculation to view results.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>RTU SGPA & CGPA Calculator v1.0 | Accurate SGPA/CGPA Calculations for All Branches & Semesters</p>
+        </footer>
+    </div>
+
+    <!-- Modal for Editing OCR Data -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Subject Details</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div id="edit-subjects-container" class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="save-edit-btn">Save Changes</button>
+                <button class="btn-secondary" id="cancel-edit-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
