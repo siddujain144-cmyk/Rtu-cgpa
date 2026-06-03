@@ -1,0 +1,52 @@
+# ============================================
+# RTU SGPA & CGPA Calculator - .gitignore
+# ============================================
+
+# Backup Files
+*_backup.*
+*_new.*
+*.bak
+*.tmp
+
+# IDE & Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS Files
+.DS_Store
+Thumbs.db
+.Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Node (if ever needed)
+node_modules/
+package-lock.json
+
+# Build/Dist
+dist/
+build/
+*.zip
+
+# Environment
+.env
+.env.local
+
+# Cache
+.cache/
+*.cache
+
+# Session files
+.session
+
+# Temporary
+temp/
+tmp/
+*.temp
